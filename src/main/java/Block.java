@@ -1,6 +1,5 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -10,80 +9,101 @@ public class Block {
     private final String data;
     private final long timestamp;
     private final long previousTimestamp;
-    private final String nonce;
-    private long difficulty;
+    private final long nonce;
 
-    public Block(String data, String previousHash, long timestamp, long previousTimestamp, long previousDifficulty) {
+    /**
+     *
+     * @param data Block data to be included in the block
+     * @param previousHash Previous block hash
+     * @param timestamp Timestamp the block was created
+     */
+    public Block(String data, String previousHash, long timestamp, long previousTimestamp, long nonce) {
         this.data = data;
+        this.hash = this.calculateBlockHash();
         this.previousHash = previousHash;
         this.timestamp = timestamp;
         this.previousTimestamp = previousTimestamp;
-
-        // Calculate difficulty (≈120-second block time, +-1 difficulty steps)
-        if (timestamp - previousTimestamp < 120)
-            // the block was too easy
-            this.difficulty = previousDifficulty + 1;
-        else if (timestamp - previousTimestamp > 120 && difficulty > 0)
-            // block was too hard
-            this.difficulty = previousDifficulty - 1;
-
-        String nonce = "";
-        for (int i = 0; i < this.difficulty; i++)
-            nonce += "0";
         this.nonce = nonce;
-
-        this.hash = this.calculateBlockHash();
     }
 
+    /* Getters */
+
     /**
-    * Getters
-    * */
+     * Get block data
+     * @return Block data
+     */
     public String getData() {
         return this.data;
     }
+
+    /**
+     * Get block created timestamp
+     * @return Block created timestamp
+     */
     public long getTimestamp() {
         return this.timestamp;
     }
+
+    /**
+     * Get previous block hash
+     * @return Previous block hash
+     */
     public String getPreviousHash() {
         return this.previousHash;
     }
+
+    /**
+     * Get block hash
+     * @return Block hash
+     */
     public String getHash() {
         return this.hash;
     }
-    public String getNonce() {
+
+    /**
+     * Get block nonce
+     * @return Block nonce
+     */
+    public long getNonce() {
         return this.nonce;
     }
-    public long getDifficulty() {
-        return this.difficulty;
-    }
+
+    /**
+     * Get previous block timestamp
+     * @return Previous block timestamp
+     */
     public long getPreviousTimestamp() {
         return this.previousTimestamp;
     }
 
+    /* Block initialization instance methods */
+
     /**
-    * Block initialization instance methods
-    * */
+     * Calculate block hash
+     * @return Block hash
+     */
     private String calculateBlockHash() {
-        String dataToHash = this.getPreviousHash() + Long.toString(this.getTimestamp()) + this.getNonce();
+        String dataToHash = previousHash + Long.toString(this.timestamp) + Long.toString(this.nonce) + this.data;
+        MessageDigest digest = null;
+        byte[] bytes = null;
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA3-512");
-            byte[] bytes = digest.digest(dataToHash.getBytes(UTF_8));
-            StringBuffer buffer = new StringBuffer();
-            for (byte b : bytes) {
-                buffer.append(String.format("%02x", b));
-            }
-            return buffer.toString();
+            digest = MessageDigest.getInstance("SHA3-512");
+            bytes = digest.digest(dataToHash.getBytes(UTF_8));
         } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Unsupported Algorithm:\n\n" + ex);
+            System.out.println("Unsupported algorithm:\n\n" + ex);
             return "";
         }
+        StringBuilder buffer = new StringBuilder();
+        for (byte b : bytes) {
+            buffer.append(String.format("%02x", b));
+        }
+        return buffer.toString();
     }
 
     public String toString() {
         return String.format(
-                "Hash: %s\nDifficulty: %s\nPrevious Hash: %s\nTimestamp: %s\nPrevious Timestamp: %s\nNonce: %s\nData: %s",
-                Objects.equals(this.getHash(), Constants.EMPTY_BLOCK_HASH) ? "(None)" : this.getHash(),
-                this.getDifficulty(),
+                "Hash: %s\nPrevious Hash: %s\nTimestamp: %s\nPrevious Timestamp: %s\nNonce: %s\nData: %s",
+                this.getHash().equals(Constants.EMPTY_BLOCK_HASH) ? "(None)" : this.getHash(),
                 this.getPreviousHash(),
                 this.getTimestamp(),
                 this.getPreviousTimestamp(),

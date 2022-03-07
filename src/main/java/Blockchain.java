@@ -1,21 +1,27 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Blockchain {
-    private ArrayList<Block> chain;
+    private static ArrayList<Block> chain;
+    private static int difficulty;
+    private static int nonce;
 
-    public Blockchain() {
-        chain = new ArrayList<>();
-    }
     public Blockchain(ArrayList<Block> chain) {
-        this.chain = chain;
+        Blockchain.chain = chain;
+        //! Change the nonce to be dynamic for each block (1 is too easy for every block)
+        Blockchain.nonce = 1;
     }
 
     /**
     * Getters
     * */
     public ArrayList<Block> getChain() {
-        return this.chain;
+        return Blockchain.chain;
+    }
+    public int getCurrentDifficulty() {
+        return Blockchain.difficulty;
+    }
+    public int getNonce() {
+        return Blockchain.nonce;
     }
 
     /**
@@ -23,12 +29,11 @@ public class Blockchain {
      * */
     public void addBlock(Block block) {
         chain.add(block);
+        // we reached the 1000-block adjustment period, so readjust difficulty
+        if (Blockchain.chain.size() % 1000 == 0) Blockchain.difficulty = this.calculateBlockDifficulty();
     }
-    public void removeBlock(int index) {
-        chain.remove(index);
-    }
-    public void removeBlock(Block block) {
-        chain.remove(block);
+    public void setNonce(int newNonce) {
+        Blockchain.nonce = newNonce;
     }
 
     public boolean isValid() {
@@ -42,6 +47,17 @@ public class Blockchain {
         return true;
     }
 
+    private int calculateBlockDifficulty() {
+        ArrayList<Block> chain = this.getChain();
+        int last1000BlockTime = 0;
+        for (int i = 0; i < Constants.DIFF_ADJUSTMENT_BLOCK_COUNT; i++) {
+            Block currentBlock = chain.get(chain.size() - 1 - i);
+            last1000BlockTime += (currentBlock.getTimestamp() - currentBlock.getPreviousTimestamp());
+        }
+        return this.getCurrentDifficulty() * (last1000BlockTime / Constants.BLOCK_TIME_PER_ADJUSTMENT_PERIOD);
+    }
+
+    @Override
     public String toString() {
         StringBuilder ret = new StringBuilder("**********\n* Blocks *\n**********\n\n");
         ArrayList<Block> chain = this.getChain();
