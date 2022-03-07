@@ -1,3 +1,8 @@
+/**
+ * Globally-used constants that can be easily changed as per a fork specification
+ * Kept here for simplicity and ease of development
+ * Hard-coding these values defeats the purpose of being developer-friendly
+ */
 public class Constants {
     /**
      * Block hash that signifies its empty

@@ -3,6 +3,9 @@ import java.security.NoSuchAlgorithmException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * Represents an individual blockchain block
+ */
 public class Block {
     private final String hash;
     private final String previousHash;
@@ -16,6 +19,8 @@ public class Block {
      * @param data Block data to be included in the block
      * @param previousHash Previous block hash
      * @param timestamp Timestamp the block was created
+     * @param previousTimestamp Timestamp of the previous block
+     * @param nonce Block's "magic number" for solving it
      */
     public Block(String data, String previousHash, long timestamp, long previousTimestamp, long nonce) {
         this.data = data;

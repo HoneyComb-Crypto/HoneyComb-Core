@@ -2,6 +2,9 @@
 **/build/
 !src/**/build/
 
+# Maven build artifact files
+target/**
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

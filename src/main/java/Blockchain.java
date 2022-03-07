@@ -1,10 +1,17 @@
 import java.util.ArrayList;
 
+/**
+ * Represents a HoneyComb blockchain
+ */
 public class Blockchain {
     private static ArrayList<Block> chain;
     private static int difficulty;
     private static int nonce;
 
+    /**
+     * Blockchain constructor; Initializes a HoneyComb blockchain
+     * @param chain Current blockchain to be initialized with (usually only consisting of the genesis block)
+     */
     public Blockchain(ArrayList<Block> chain) {
         Blockchain.chain = chain;
         //! Change the nonce to be dynamic for each block (1 is too easy for every block)
@@ -13,29 +20,50 @@ public class Blockchain {
 
     /**
     * Getters
+     * @return Current blockchain
     * */
     public ArrayList<Block> getChain() {
         return Blockchain.chain;
     }
+
+    /**
+     * Gets the current blockchain difficulty
+     * @return Difficulty
+     */
     public int getCurrentDifficulty() {
         return Blockchain.difficulty;
     }
+
+    /**
+     * Gets the current blockchain nonce
+     * @return Current blockchain nonce
+     */
     public int getNonce() {
         return Blockchain.nonce;
     }
 
     /**
      * Setters
+     * @param block Block you want to add to the blockchain
      * */
     public void addBlock(Block block) {
         chain.add(block);
         // we reached the 1000-block adjustment period, so readjust difficulty
         if (Blockchain.chain.size() % 1000 == 0) Blockchain.difficulty = this.calculateBlockDifficulty();
     }
+
+    /**
+     * Set the blockchain nonce
+     * @param newNonce New nonce to set
+     */
     public void setNonce(int newNonce) {
         Blockchain.nonce = newNonce;
     }
 
+    /**
+     * Checks whether the blockchain is valid
+     * @return Whether the blockchain is valid
+     */
     public boolean isValid() {
         ArrayList<Block> chain = this.getChain();
         for (Block block: chain)
