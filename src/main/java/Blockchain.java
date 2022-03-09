@@ -4,24 +4,35 @@ import java.util.ArrayList;
  * Represents a HoneyComb blockchain
  */
 public class Blockchain {
+    /**
+     * Current blockchain
+     */
     private static ArrayList<Block> chain;
+    /**
+     * Current block difficulty
+     */
     private static int difficulty;
+    /**
+     * Latest network-known nonce
+     */
     private static int nonce;
 
     /**
      * Blockchain constructor; Initializes a HoneyComb blockchain
      * @param chain Current blockchain to be initialized with (usually only consisting of the genesis block)
+     * @param difficulty Current blockchain difficulty
      */
-    public Blockchain(ArrayList<Block> chain) {
+    public Blockchain(ArrayList<Block> chain, int difficulty) {
         Blockchain.chain = chain;
         //! Change the nonce to be dynamic for each block (1 is too easy for every block)
         Blockchain.nonce = 1;
+        Blockchain.difficulty = difficulty;
     }
 
     /**
-    * Getters
+     * Get current blockchain
      * @return Current blockchain
-    * */
+     */
     public ArrayList<Block> getChain() {
         return Blockchain.chain;
     }
@@ -75,14 +86,18 @@ public class Blockchain {
         return true;
     }
 
+    /**
+     * Calculate new block difficulty
+     * @return New block difficulty
+     */
     private int calculateBlockDifficulty() {
         ArrayList<Block> chain = this.getChain();
-        int last1000BlockTime = 0;
+        int lastNBlockTime = 0;
         for (int i = 0; i < Constants.DIFF_ADJUSTMENT_BLOCK_COUNT; i++) {
             Block currentBlock = chain.get(chain.size() - 1 - i);
-            last1000BlockTime += (currentBlock.getTimestamp() - currentBlock.getPreviousTimestamp());
+            lastNBlockTime += (currentBlock.getTimestamp() - currentBlock.getPreviousTimestamp());
         }
-        return this.getCurrentDifficulty() * (last1000BlockTime / Constants.BLOCK_TIME_PER_ADJUSTMENT_PERIOD);
+        return this.getCurrentDifficulty() * (lastNBlockTime / Constants.BLOCK_TIME_PER_ADJUSTMENT_PERIOD);
     }
 
     @Override

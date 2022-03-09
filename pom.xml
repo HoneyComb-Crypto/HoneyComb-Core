@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>HoneyComb Core Library</name>
     <groupId>io.github.honeycomb-crypto.core</groupId>
     <artifactId>HoneyComb-Core</artifactId>
-    <version>0.0.0-SNAPSHOT</version>
+    <version>0.0.0</version>
     <description>HoneyComb Core Java Library used by HoneyComb to interact with the HoneyComb blockchain offline. Online interaction is provided by the HoneyComb Core Wallet library.</description>
     <url>https://honeycomb-crypto.github.io/HoneyComb-Website/</url>
 
@@ -35,6 +36,8 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <distributionManagement>
@@ -48,7 +51,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <version>1.6.12</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -98,6 +101,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

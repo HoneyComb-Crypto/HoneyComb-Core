@@ -1,13 +1,13 @@
 /**
- * Globally-used constants that can be easily changed as per a fork specification
- * Kept here for simplicity and ease of development
- * Hard-coding these values defeats the purpose of being developer-friendly
+ * Globally-used constants that can be easily changed as per a fork specification.
+ * Kept here for simplicity and ease of development.
+ * Hard-coding these values in code defeats the purpose of being developer-friendly.
  */
 public class Constants {
     /**
      * Block hash that signifies its empty
      */
-    public static final String EMPTY_BLOCK_HASH = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+    public static final String EMPTY_BLOCK_HASH = "0";
     /**
      * Target time to mine a block (in seconds)
      */
@@ -21,7 +21,7 @@ public class Constants {
      */
     public static final int BLOCK_TIME_PER_ADJUSTMENT_PERIOD = BLOCK_TIME * DIFF_ADJUSTMENT_BLOCK_COUNT;
     /**
-     * Maximum amount of leading zeroes that a block hash can have
+     * Number of leading zeroes that a block hash should have/target
      */
     public static final short MAX_BLOCK_HASH_LEADING_ZEROES = 48;
 }

@@ -15,7 +15,7 @@ public class Block {
     private final long nonce;
 
     /**
-     *
+     * Block constructor; Initializes a HoneyComb block
      * @param data Block data to be included in the block
      * @param previousHash Previous block hash
      * @param timestamp Timestamp the block was created
@@ -88,9 +88,9 @@ public class Block {
      * @return Block hash
      */
     private String calculateBlockHash() {
-        String dataToHash = previousHash + Long.toString(this.timestamp) + Long.toString(this.nonce) + this.data;
-        MessageDigest digest = null;
-        byte[] bytes = null;
+        String dataToHash = previousHash + this.timestamp + this.nonce + this.data;
+        MessageDigest digest;
+        byte[] bytes;
         try {
             digest = MessageDigest.getInstance("SHA3-512");
             bytes = digest.digest(dataToHash.getBytes(UTF_8));
@@ -105,6 +105,7 @@ public class Block {
         return buffer.toString();
     }
 
+    @Override
     public String toString() {
         return String.format(
                 "Hash: %s\nPrevious Hash: %s\nTimestamp: %s\nPrevious Timestamp: %s\nNonce: %s\nData: %s",
