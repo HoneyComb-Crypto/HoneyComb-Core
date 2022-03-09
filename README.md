@@ -7,7 +7,7 @@ This project is built using [Maven](https://maven.apache.org). Please add the fo
 <!-- jsonrpc4j -->
 <dependency>
 	<groupId>io.github.honeycomb-crypto.core</groupId>
-	<artifactId>honeycomb-core</artifactId>
-	<version>HoneyComb-Core</version>
+	<artifactId>HoneyComb-Core</artifactId>
+	<version>0.0.0</version>
 </dependency>
 ```
