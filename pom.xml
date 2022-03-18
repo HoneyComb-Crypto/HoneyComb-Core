@@ -7,7 +7,7 @@
     <name>HoneyComb Core Library</name>
     <groupId>io.github.honeycomb-crypto.core</groupId>
     <artifactId>HoneyComb-Core</artifactId>
-    <version>0.0.0</version>
+    <version>0.0.1</version>
     <description>HoneyComb Core Java Library used by HoneyComb to interact with the HoneyComb blockchain offline. Online interaction is provided by the HoneyComb Core Wallet library.</description>
     <url>https://honeycomb-crypto.github.io/HoneyComb-Website/</url>
 

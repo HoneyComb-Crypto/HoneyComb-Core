@@ -18,7 +18,7 @@ public class Blockchain {
     private static int nonce;
 
     /**
-     * Blockchain constructor; Initializes a HoneyComb blockchain
+     * Blockchain constructor; Initializes a HoneyComb blockchain with _existing_ blocks
      * @param chain Current blockchain to be initialized with (usually only consisting of the genesis block)
      * @param difficulty Current blockchain difficulty
      */
@@ -27,6 +27,13 @@ public class Blockchain {
         //! Change the nonce to be dynamic for each block (1 is too easy for every block)
         Blockchain.nonce = 1;
         Blockchain.difficulty = difficulty;
+    }
+
+    /**
+     * Blockchain constructor; Initializes an _empty_ HoneyComb Blockchain
+     */
+    public Blockchain() {
+        this(new ArrayList<>(), 0);
     }
 
     /**
