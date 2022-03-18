@@ -24,4 +24,8 @@ public class Constants {
      * Number of leading zeroes that a block hash should have/target
      */
     public static final short MAX_BLOCK_HASH_LEADING_ZEROES = 48;
+    /**
+     * HoneyComb Node IPs/Hosts dedicated to running the network
+     */
+    public static final String[] BLOCKCHAIN_SEED_NODES = {"66.188.193.32"};
 }
